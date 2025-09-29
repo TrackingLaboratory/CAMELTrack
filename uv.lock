@@ -1,5 +1,5 @@
 version = 1
-revision = 2
+revision = 3
 requires-python = ">=3.9"
 resolution-markers = [
     "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
@@ -264,7 +264,8 @@ dependencies = [
     { name = "overrides" },
     { name = "pytorch-metric-learning" },
     { name = "torchreid" },
-    { name = "tracklab", extra = ["transformers"] },
+    { name = "tracklab" },
+    { name = "transformers" },
     { name = "wandb" },
 ]
 
@@ -274,7 +275,8 @@ requires-dist = [
     { name = "overrides" },
     { name = "pytorch-metric-learning" },
     { name = "torchreid", git = "https://github.com/victorjoos/keypoint_promptable_reidentification" },
-    { name = "tracklab", extras = ["transformers"] },
+    { name = "tracklab" },
+    { name = "transformers" },
     { name = "wandb" },
 ]
 
@@ -2759,7 +2761,7 @@ wheels = [
 
 [[package]]
 name = "pytorch-metric-learning"
-version = "2.8.1"
+version = "2.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
@@ -2767,9 +2769,9 @@ dependencies = [
     { name = "torch" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/78/94/1bfb2c3eaf195b2d72912b65b3d417f2d9ac22491563eca360d453512c59/pytorch-metric-learning-2.8.1.tar.gz", hash = "sha256:fcc4d3b4a805e5fce25fb2e67505c47ba6fea0563fc09c5655ea1f08d1e8ed93", size = 83117, upload-time = "2024-12-11T19:21:15.982Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9b/80/6e61b1a91debf4c1b47d441f9a9d7fe2aabcdd9575ed70b2811474eb95c3/pytorch-metric-learning-2.9.0.tar.gz", hash = "sha256:27a626caf5e2876a0fd666605a78cb67ef7597e25d7a68c18053dd503830701f", size = 84530, upload-time = "2025-08-17T17:11:19.501Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/60/15/eee4e24c3f5a63b3e73692ff79766a66cab8844e24f5912be29350937592/pytorch_metric_learning-2.8.1-py3-none-any.whl", hash = "sha256:aba6da0508d29ee9661a67fbfee911cdf62e65fc07e404b167d82871ca7e3e88", size = 125923, upload-time = "2024-12-11T19:21:13.448Z" },
+    { url = "https://files.pythonhosted.org/packages/46/7d/73ef5052f57b7720cad00e16598db3592a5ef4826745ffca67a2f085d4dc/pytorch_metric_learning-2.9.0-py3-none-any.whl", hash = "sha256:d51646006dc87168f00cf954785db133a4c5aac81253877248737aa42ef6432a", size = 127801, upload-time = "2025-08-17T17:11:18.185Z" },
 ]
 
 [[package]]
@@ -3851,11 +3853,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/30/29/3a79957d8848a7b6576359be7ac33e26fb5059f87d115b9168c3bd6d27b6/tracklab-1.3.17.tar.gz", hash = "sha256:76cba79c5029d732eebe3740f359e67d28d6d7f0f0984c68d91f6aa67ee1a311", size = 238459, upload-time = "2025-04-17T12:33:41.149Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2f/7b/3badea1ccfe331b075ece8d8223834aae0847e8fb6c0bec53c467d602a27/tracklab-1.3.17-py3-none-any.whl", hash = "sha256:8f5c48566898da7bc95659db94e733f23984ea444e17017484b1c4c286a12ae8", size = 321718, upload-time = "2025-04-17T12:33:38.305Z" },
-]
-
-[package.optional-dependencies]
-transformers = [
-    { name = "transformers" },
 ]
 
 [[package]]
