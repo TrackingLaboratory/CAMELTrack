@@ -62,7 +62,8 @@ performance on multiple tracking benchmarks.
 - [x] Release of the `tracker_states` used for the training
 - [x] Release weights of a model trained jointly on multiple datasets (DanceTrack, SportsMOT, MOT17, PoseTrack21)
 - [x] Release of the `tracker_states` and `detections` used for the evaluation
-- [ ] Cleaning of the code for the training
+- [x] Instructions to reproduce the paper results with two-stage training (see [Reproducing the paper results](#reproducing-the-paper-results-two-stage-training))
+- [ ] Cleaning of the training code
 
 ## ⚙️ Quick Installation Guide
 CAMELTrack is built on top of [TrackLab](https://github.com/TrackingLaboratory/tracklab), a research framework for Multi-Object Tracking.
@@ -225,6 +226,61 @@ This is an overview of CAMELTrack's online pipeline, which uses the tracking-by-
 <p align="center">
   <img src="media/architecture_cameltrack.jpg" width="100%" alt="Pull Figure of CAMEL">
 </p>
+
+### 🏆 Reproducing the paper results (two-stage training)
+
+The paper results were obtained with a two-stage training schedule: the Temporal Encoders (TEs) are first pre-trained alone, then the full model is trained from these pre-trained TEs.
+
+Both stages use the default hyperparameters and data augmentations of [camel.yaml](cameltrack/configs/modules/track/camel.yaml), with two changes: `max_epochs: 20` and `train_add_val: true` (training on train+val, evaluation on the test set).
+
+**Stage 1: pre-train each TE alone (one run per cue)**
+
+In `camel.yaml`, keep a single encoder under `temporal_encoders` and replace GAFFE with the identity module, so that the association loss is applied directly on the TE output:
+
+```yaml
+gaffe:
+  _target_: cameltrack.architecture.Identity
+temporal_encoders:
+  app_encoder:  # second run: kp_encoder only, third run: bbox_encoder only
+    ...
+```
+
+```bash
+uv run tracklab -cn cameltrack_train dataset=dancetrack
+```
+
+Each run saves its checkpoint in `outputs/cameltrack_train`.
+
+**Stage 2: train the full model from the pre-trained TEs**
+
+Restore GAFFE (random initialization) and the three encoders, and point each encoder to its Stage 1 checkpoint:
+
+```yaml
+gaffe:
+  _target_: cameltrack.architecture.GAFFE
+  checkpoint_path: null
+  ...
+temporal_encoders:
+  app_encoder:
+    checkpoint_path: "/path/to/stage1_app.ckpt"
+    ...
+  kp_encoder:
+    checkpoint_path: "/path/to/stage1_kps.ckpt"
+    ...
+  bbox_encoder:
+    checkpoint_path: "/path/to/stage1_bbox.ckpt"
+    ...
+```
+
+Then run the same training command. Nothing is frozen: the TEs and GAFFE are trained jointly with the same learning rate. Use the resulting checkpoint for tracking via `modules.track.checkpoint_path`.
+
+**Notes**
+
+- Results are sensitive to the data augmentation hyperparameters: a small grid search on them is worth it.
+- Inference thresholds (`min_det_conf` / `min_init_det_conf`): 0.4 / 0.9 for DanceTrack, 0.1 / 0.4 for SportsMOT.
+- If you fine-tune from our released weights, Stage 1 is not needed.
+
+Feel free to open an issue or contact the authors if you have any question about this procedure.
 
 
 ## 🔍 Ideas for Further Work
