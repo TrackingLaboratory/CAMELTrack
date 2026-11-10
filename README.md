@@ -62,7 +62,7 @@ performance on multiple tracking benchmarks.
 - [x] Release of the `tracker_states` used for the training
 - [x] Release weights of a model trained jointly on multiple datasets (DanceTrack, SportsMOT, MOT17, PoseTrack21)
 - [x] Release of the `tracker_states` and `detections` used for the evaluation
-- [x] Instructions to reproduce the paper results with two-stage training (see [Reproducing the paper results](#reproducing-the-paper-results-two-stage-training))
+- [x] Instructions to reproduce the paper results with two-stage training (see [Reproducing the paper results](#-reproducing-the-paper-results-two-stage-training))
 - [ ] Cleaning of the training code
 
 ## ⚙️ Quick Installation Guide
